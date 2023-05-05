@@ -1,22 +1,29 @@
-﻿namespace KolodAPI.DeckManager
+﻿using KolodAPI.Shuffler;
+
+namespace KolodAPI.DeckManager
 {
-    public class DeckManager : IDeckManager
+    public class MemoryDeckManager : IDeckManager
     {
         private readonly Dictionary<string, Deck> _decks;
+        private readonly IDeckShuffler deckShuffler;
 
-        public DeckManager()
+        public MemoryDeckManager(IDeckShuffler deckShuffler)
         {
             _decks = new Dictionary<string, Deck>();
+            this.deckShuffler = deckShuffler;
         }
 
-        public void CreateDeck(string name)
+        public Deck CreateDeck(string name)
         {
             if (_decks.ContainsKey(name))
             {
                 throw new ArgumentException($"Deck with name '{name}' already exists");
             }
 
-            _decks.Add(name, new Deck());
+            var deck = new Deck();
+            _decks.Add(name, deck);
+
+            return deck;
         }
 
         public void RemoveDeck(string name)
@@ -41,7 +48,7 @@
                 throw new ArgumentException($"Deck with name '{name}' does not exist");
             }
 
-            _decks[name].Shuffle();
+            _decks[name].Cards = deckShuffler.GetShuffledDeck(_decks[name].Cards);
         }
 
         public Deck GetDeck(string name)
@@ -52,6 +59,16 @@
             }
 
             return _decks[name];
+        }
+
+        public void EditDeck(string name, Deck deck)
+        {
+            if (!_decks.ContainsKey(name))
+            {
+                throw new ArgumentException($"Deck with name '{name}' does not exist");
+            }
+
+            _decks[name] = deck;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using KolodAPI.DeckManager;
 using System.Xml.Linq;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using KolodAPI.Models;
 
 namespace KolodAPI.Controllers
 {
@@ -10,6 +13,13 @@ namespace KolodAPI.Controllers
     {
         private readonly ILogger<DeckManagerController> logger;
         private readonly IDeckManager deckManager;
+
+        private readonly JsonSerializerSettings jsonSerializerSettings =
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.None,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
         public DeckManagerController(
             ILogger<DeckManagerController> logger,
@@ -25,6 +35,8 @@ namespace KolodAPI.Controllers
             try
             {
                 deckManager.CreateDeck(name);
+                
+                logger.LogInformation($"Deck '{name}' created successfully");
                 return Ok($"Deck '{name}' created successfully");
             }
             catch (ArgumentException ex)
@@ -40,6 +52,8 @@ namespace KolodAPI.Controllers
             try
             {
                 deckManager.RemoveDeck(name);
+
+                logger.LogInformation($"Deck '{name}' removed successfully");
                 return Ok($"Deck '{name}' removed successfully");
             }
             catch (ArgumentException ex)
@@ -55,7 +69,10 @@ namespace KolodAPI.Controllers
             try
             {
                 var names = deckManager.GetDeckNames();
-                return Ok(names);
+                var json = JsonConvert.SerializeObject(names, jsonSerializerSettings);
+
+                logger.LogInformation("Sending all deck names");
+                return Ok(json);
             }
             catch (Exception ex)
             {
@@ -70,6 +87,8 @@ namespace KolodAPI.Controllers
             try
             {
                 deckManager.ShuffleDeck(name);
+
+                logger.LogInformation($"Deck '{name}' shuffled successfully");
                 return Ok($"Deck '{name}' shuffled successfully");
             }
             catch (ArgumentException ex)
@@ -85,7 +104,12 @@ namespace KolodAPI.Controllers
             try
             {
                 var deck = deckManager.GetDeck(name);
-                return Ok(deck);
+                var json = JsonConvert.SerializeObject(
+                    deck.Cards, 
+                    jsonSerializerSettings);
+
+                logger.LogInformation($"Sending deck '{name}'");
+                return Ok(json);
             }
             catch (ArgumentException ex)
             {
