@@ -91,6 +91,7 @@ namespace KolodAPI.DeckManager
 
             var deck = new Deck(deckShuffler.GetShuffledDeck(cards!));
 
+
             deckModel.Deck = JsonConvert.SerializeObject(deck.Cards, jsonSerializerSettings);
             ctx.SaveChanges();
         }

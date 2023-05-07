@@ -48,7 +48,7 @@ namespace KolodAPI.DeckManager
                 throw new ArgumentException($"Deck with name '{name}' does not exist");
             }
 
-            _decks[name].Cards = deckShuffler.GetShuffledDeck(_decks[name].Cards);
+            _decks[name].SetCards(deckShuffler.GetShuffledDeck(_decks[name].Cards));
         }
 
         public Deck GetDeck(string name)

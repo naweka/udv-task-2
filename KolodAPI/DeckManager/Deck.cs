@@ -6,7 +6,21 @@ namespace KolodAPI.DeckManager
 {
     public class Deck
     {
-        public List<Card> Cards;
+        public List<Card> Cards { get; private set; }
+
+
+        public void AddCard(Card card)
+        {
+            if (!Cards.Contains(card))
+                Cards.Add(card);
+            else
+                throw new InvalidOperationException($"Card {card} already exist");
+        }
+
+        public void SetCards(List<Card> newCards)
+        {
+            Cards = newCards;
+        }
 
         public Deck()
         {
@@ -23,7 +37,7 @@ namespace KolodAPI.DeckManager
 
         public Deck(List<Card> cards)
         {
-            this.Cards = cards;
+            Cards = cards;
         }
 
         public override string ToString()

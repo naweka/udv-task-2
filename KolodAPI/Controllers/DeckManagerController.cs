@@ -30,7 +30,7 @@ namespace KolodAPI.Controllers
         }
 
         [HttpPost("{name}", Name = "CreateDeck")]
-        public IActionResult CreateDeck(string name)
+        public async Task<IActionResult> CreateDeck(string name)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace KolodAPI.Controllers
         }
 
         [HttpDelete("{name}", Name = "RemoveDeck")]
-        public IActionResult RemoveDeck(string name)
+        public async Task<IActionResult> RemoveDeck(string name)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace KolodAPI.Controllers
         }
 
         [HttpGet(Name = "GetDeckNames")]
-        public IActionResult GetDeckNames()
+        public async Task<IActionResult> GetDeckNames()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace KolodAPI.Controllers
         }
 
         [HttpPost("{name}/shuffle", Name = "ShuffleDeck")]
-        public IActionResult ShuffleDeck(string name)
+        public async Task<IActionResult> ShuffleDeck(string name)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace KolodAPI.Controllers
         }
 
         [HttpGet("{name}", Name = "GetDeck")]
-        public IActionResult GetDeck(string name)
+        public async Task<IActionResult> GetDeck(string name)
         {
             try
             {

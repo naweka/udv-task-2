@@ -17,5 +17,14 @@ namespace KolodAPI.DeckManager
         {
             return $"{Value} of {Suit}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            Card otherCard = (Card)obj;
+            return Suit == otherCard.Suit && Value == otherCard.Value;
+        }
     }
 }
