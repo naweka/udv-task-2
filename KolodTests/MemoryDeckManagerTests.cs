@@ -1,12 +1,6 @@
 ﻿using FluentAssertions;
 using KolodAPI.DeckManager;
 using KolodAPI.DeckShuffler;
-using KolodAPI.Shuffler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KolodTests
 {
